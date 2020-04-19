@@ -21,6 +21,20 @@ export class SignUpComponent implements OnInit {
 
   onSubmit() {
     // TODO: Use EventEmitter with form value
-    console.warn(this.profileForm.value);
+    for (var property in this.profileForm.value) {
+      if (this.profileForm.value.hasOwnProperty(property)) {
+        if (this.profileForm.value[property] === '') {
+          return;
+        }
+      }
+    }
+
+
+
+    if (this.profileForm.value.password !== this.profileForm.value.passwordRepeat) {
+      return;
+    }
+
+    console.log('done');
   }
 }

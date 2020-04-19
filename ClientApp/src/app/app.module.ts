@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
+import { InputCharsOnlyDirective } from './input-chars-only.directive';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { SignUpComponent } from './sign-up/sign-up.component';
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    SignUpComponent
+    SignUpComponent,
+    InputCharsOnlyDirective
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
