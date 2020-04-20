@@ -14,8 +14,13 @@
       margin-bottom: 0.5em;
 
       label {
-          margin-bottom: 0px;
+        margin-bottom: 0px;
       }
+    }
+
+    .errorComment {
+        color: red;
+        font-weight: 700;
     }
   }
 }

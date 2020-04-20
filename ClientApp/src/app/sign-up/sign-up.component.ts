@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { AppService } from '../app.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -12,29 +13,43 @@ export class SignUpComponent implements OnInit {
     lastName: new FormControl(''),
     password: new FormControl(''),
     passwordRepeat: new FormControl(''),
+    email: new FormControl(''),
   });
 
-  constructor() { }
+  @ViewChild('errorComment', null) errorComment: ElementRef;
+
+  constructor(public appService: AppService) { }
 
   ngOnInit() {
   }
 
-  onSubmit() {
-    // TODO: Use EventEmitter with form value
+  async onSubmit() {
     for (var property in this.profileForm.value) {
       if (this.profileForm.value.hasOwnProperty(property)) {
         if (this.profileForm.value[property] === '') {
+          this.errorComment.nativeElement.innerHTML = 'Please fill all the fields';
           return;
         }
       }
     }
 
-
-
-    if (this.profileForm.value.password !== this.profileForm.value.passwordRepeat) {
+    if (!this.validateEmail(this.profileForm.value.email)) {
+      this.errorComment.nativeElement.innerHTML = 'Please fill the email in the correct format';
       return;
     }
 
+    if (this.profileForm.value.password !== this.profileForm.value.passwordRepeat) {
+      this.errorComment.nativeElement.innerHTML = 'Passwords doesn\'t match';
+      return;
+    }
+
+    this.errorComment.nativeElement.innerHTML = '';
     console.log('done');
+    const res = await this.appService.postSignup(this.profileForm.value);
+  }
+
+  private validateEmail(email) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
   }
 }
