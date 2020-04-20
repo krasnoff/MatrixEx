@@ -9,6 +9,6 @@ export class AppService {
   constructor(private http: HttpClient) { }
 
   public postSignup(payload: any) {
-    return this.http.post('/assets/json/albumslist.json', payload).toPromise();
+    return this.http.post('/api/Signup/', payload).toPromise();
   }
 }
