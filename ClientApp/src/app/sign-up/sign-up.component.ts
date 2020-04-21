@@ -25,7 +25,7 @@ export class SignUpComponent implements OnInit {
   }
 
   onSubmit() {
-    for (var property in this.profileForm.value) {
+    for (const property in this.profileForm.value) {
       if (this.profileForm.value.hasOwnProperty(property)) {
         if (this.profileForm.value[property] === '') {
           this.errorComment.nativeElement.innerHTML = 'Please fill all the fields';

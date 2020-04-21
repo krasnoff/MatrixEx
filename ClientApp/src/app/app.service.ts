@@ -11,4 +11,8 @@ export class AppService {
   public postSignup(payload: any) {
     return this.http.post('/api/Signup/', payload).toPromise();
   }
+
+  public login(payload: any) {
+    return this.http.post('/api/Signin/', payload).toPromise();
+  }
 }

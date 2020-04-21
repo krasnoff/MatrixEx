@@ -8,7 +8,7 @@ namespace MatrixEx
 {
     public class Users
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         [Required(ErrorMessage = "Please fill first name")]
         public string FirstName { get; set; }
         [Required(ErrorMessage = "Please fill last name")]

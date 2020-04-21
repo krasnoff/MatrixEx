@@ -46,7 +46,7 @@ namespace MatrixEx.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUsers(Guid id, Users users)
+        public async Task<IActionResult> PutUsers(string id, Users users)
         {
             if (id != users.Id)
             {
@@ -80,7 +80,7 @@ namespace MatrixEx.Controllers
         [HttpPost]
         public async Task<ActionResult<Users>> PostUsers(Users users)
         {
-            users.Id = Guid.NewGuid();
+            users.Id = Guid.NewGuid().ToString();
             
             _context.Users.Add(users);
             await _context.SaveChangesAsync();
@@ -104,7 +104,7 @@ namespace MatrixEx.Controllers
             return users;
         }
 
-        private bool UsersExists(Guid id)
+        private bool UsersExists(string id)
         {
             return _context.Users.Any(e => e.Id == id);
         }

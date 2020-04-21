@@ -30,7 +30,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-      { path: '', component: SignUpComponent, pathMatch: 'full' },
+      { path: '', component: SignInComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'sign-up', component: SignUpComponent },
