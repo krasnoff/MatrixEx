@@ -1,0 +1,26 @@
+<div class="wrapper">
+  <form class="form-signin" [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+    <div class="text-center mb-4">
+      <h1 class="h3 mb-3 font-weight-normal">Signin Form</h1>
+      <p></p>
+    </div>
+
+    <div class="form-label-group">
+      <label for="inputEmail">Email</label>
+      <input type="text" id="inputEmail" class="form-control" placeholder="Email" required formControlName="email">
+    </div>
+
+    <div class="form-label-group">
+      <label for="inputPassword">Password</label>
+      <input type="password" id="inputPassword" class="form-control" placeholder="Password" required formControlName="password" appInputCharsOnly>
+    </div>
+
+    <div class="checkbox mb-3">
+      <label #errorComment class="errorComment"></label>
+    </div>
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <p class="mt-5 mb-3 text-muted text-center">Forgot password?</p>
+    <p class="mt-5 mb-3 text-muted text-center">&copy; 2019-2020</p>
+  </form>
+</div>

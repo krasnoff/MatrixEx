@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AppService } from '../app.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -18,12 +19,12 @@ export class SignUpComponent implements OnInit {
 
   @ViewChild('errorComment', null) errorComment: ElementRef;
 
-  constructor(public appService: AppService) { }
+  constructor(public appService: AppService, private router: Router) { }
 
   ngOnInit() {
   }
 
-  async onSubmit() {
+  onSubmit() {
     for (var property in this.profileForm.value) {
       if (this.profileForm.value.hasOwnProperty(property)) {
         if (this.profileForm.value[property] === '') {
@@ -44,8 +45,14 @@ export class SignUpComponent implements OnInit {
     }
 
     this.errorComment.nativeElement.innerHTML = '';
-    console.log('done');
-    const res = await this.appService.postSignup(this.profileForm.value);
+    this.appService.postSignup(this.profileForm.value).then(data => {
+      console.log('data', data);
+      this.router.navigateByUrl('/sign-in');
+    }).catch(err => {
+      console.log('error', err);
+      this.errorComment.nativeElement.innerHTML = 'Error: ' + err.status;
+    });
+    
   }
 
   private validateEmail(email) {

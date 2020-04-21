@@ -11,6 +11,7 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { InputCharsOnlyDirective } from './input-chars-only.directive';
+import { SignInComponent } from './sign-in/sign-in.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { InputCharsOnlyDirective } from './input-chars-only.directive';
     CounterComponent,
     FetchDataComponent,
     SignUpComponent,
-    InputCharsOnlyDirective
+    InputCharsOnlyDirective,
+    SignInComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -32,6 +34,7 @@ import { InputCharsOnlyDirective } from './input-chars-only.directive';
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'sign-up', component: SignUpComponent },
+      { path: 'sign-in', component: SignInComponent },
     ])
   ],
   providers: [],

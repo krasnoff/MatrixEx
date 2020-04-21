@@ -80,6 +80,8 @@ namespace MatrixEx.Controllers
         [HttpPost]
         public async Task<ActionResult<Users>> PostUsers(Users users)
         {
+            users.Id = Guid.NewGuid();
+            
             _context.Users.Add(users);
             await _context.SaveChangesAsync();
 
