@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using MatrixEx.Data;
@@ -9,6 +10,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 
 namespace MatrixEx.Controllers
 {
@@ -17,10 +20,13 @@ namespace MatrixEx.Controllers
     public class SigninController : ControllerBase
     {
         private readonly MatrixExContext _context;
+        private IConfiguration _configuration;
 
-        public SigninController(MatrixExContext context)
+        public SigninController(MatrixExContext context, IConfiguration Configuration)
         {
             _context = context;
+            _configuration = Configuration;
+
         }
 
         // GET: api/Signin
@@ -52,24 +58,30 @@ namespace MatrixEx.Controllers
                 return BadRequest(new { message = "Username or password is incorrect" });
             }
 
-            /*var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
-            var tokenDescriptor = new SecurityTokenDescriptor
+            var claims = new[]
             {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
-                }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                new Claim(ClaimTypes.Sid, myUser.FirstOrDefault().Id)
             };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            var tokenString = tokenHandler.WriteToken(token);*/
+
+            SymmetricSecurityKey key;
+
+            if (_configuration != null)
+                key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["SecurityKey"]));
+            else
+                key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("dd%88*377f6d&f£$$£$FdddFF33fssDG^!3"));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                issuer: "yourdomain.com",
+                audience: "yourdomain.com",
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(30),
+                signingCredentials: creds);
 
             return Ok(new
             {
                 Id = myUser.FirstOrDefault().Id,
-                Token = "tokenString"
+                Token = new JwtSecurityTokenHandler().WriteToken(token),
             });
         }
 

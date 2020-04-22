@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { AppService } from '../app.service';
 import { Router } from '@angular/router';
+import { GlobalsService, Credentials } from '../globals.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -16,7 +17,7 @@ export class SignInComponent implements OnInit {
 
   @ViewChild('errorComment', null) errorComment: ElementRef;
 
-  constructor(public appService: AppService, private router: Router) { }
+  constructor(public appService: AppService, private router: Router, public globals: GlobalsService) { }
 
   ngOnInit() {
   }
@@ -38,7 +39,8 @@ export class SignInComponent implements OnInit {
 
     this.appService.login(this.profileForm.value).then(data => {
       console.log('data', data);
-      // this.router.navigateByUrl('/sign-in');
+      this.globals.credentials = <Credentials>data;
+      this.router.navigateByUrl('/youtube');
     }).catch(err => {
       console.log('error', err);
       this.errorComment.nativeElement.innerHTML = 'Error: ' + err.status;

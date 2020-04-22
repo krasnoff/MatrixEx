@@ -12,6 +12,9 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { InputCharsOnlyDirective } from './input-chars-only.directive';
 import { SignInComponent } from './sign-in/sign-in.component';
+import { GlobalsService } from './globals.service';
+import { YoutubeListComponent } from './youtube-list/youtube-list.component';
+import { AuthenticatedGuard } from './authenticated.guard';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,8 @@ import { SignInComponent } from './sign-in/sign-in.component';
     FetchDataComponent,
     SignUpComponent,
     InputCharsOnlyDirective,
-    SignInComponent
+    SignInComponent,
+    YoutubeListComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -35,9 +39,10 @@ import { SignInComponent } from './sign-in/sign-in.component';
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'sign-up', component: SignUpComponent },
       { path: 'sign-in', component: SignInComponent },
+      { path: 'youtube', component: YoutubeListComponent, canActivate: [AuthenticatedGuard]},
     ])
   ],
-  providers: [],
+  providers: [GlobalsService, AuthenticatedGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
