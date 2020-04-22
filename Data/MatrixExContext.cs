@@ -16,5 +16,6 @@ namespace MatrixEx.Data
 
         public DbSet<MatrixEx.Users> Users { get; set; }
         public DbSet<MatrixEx.Data.Categories> Categories { get; set; }
+        public DbSet<MatrixEx.Data.Clips> Clips { get; set; }
     }
 }
