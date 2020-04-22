@@ -15,6 +15,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { GlobalsService } from './globals.service';
 import { YoutubeListComponent } from './youtube-list/youtube-list.component';
 import { AuthenticatedGuard } from './authenticated.guard';
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { AuthenticatedGuard } from './authenticated.guard';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    AutocompleteLibModule,
     RouterModule.forRoot([
       { path: '', component: SignInComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },

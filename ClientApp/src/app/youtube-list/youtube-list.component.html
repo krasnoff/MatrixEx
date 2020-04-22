@@ -1,1 +1,42 @@
-<p>youtube-list works!</p>
+<div class="wrapper">
+  <form class="form-signin" [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+    <div class="text-center mb-4">
+      <h1 class="h3 mb-3 font-weight-normal">Clips list</h1>
+      <p></p>
+    </div>
+
+    <div class="form-label-group">
+      <label for="inputEmail">Category</label>
+      <div class="ng-autocomplete">
+        <ng-autocomplete [data]="data"
+                         [searchKeyword]="keyword"
+                         (selected)='selectEvent($event)'
+                         (inputChanged)='onChangeSearch($event)'
+                         (inputFocused)='onFocused($event)'
+                         [itemTemplate]="itemTemplate"
+                         [notFoundTemplate]="notFoundTemplate">
+        </ng-autocomplete>
+
+        <ng-template #itemTemplate let-item>
+          <a [innerHTML]="item.name"></a>
+        </ng-template>
+
+        <ng-template #notFoundTemplate let-notFound>
+          <div [innerHTML]="notFound"></div>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="form-label-group">
+      <label for="inputPassword">Link</label>
+      <input type="text" id="link" class="form-control" placeholder="link" required formControlName="link">
+    </div>
+
+    <div class="checkbox mb-3">
+      <label #errorComment class="errorComment"></label>
+    </div>
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <p class="mt-5 mb-3 text-muted text-center">&copy; 2019-2020</p>
+  </form>
+</div>
