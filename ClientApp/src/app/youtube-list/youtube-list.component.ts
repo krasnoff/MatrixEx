@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from '../app.service';
 import { FormGroup, FormControl } from '@angular/forms';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+
+export interface IHash {
+  [details: string]: string;
+}
 
 @Component({
   selector: 'app-youtube-list',
@@ -16,8 +21,12 @@ export class YoutubeListComponent implements OnInit {
   public data;
   selectedCategory: number;
   public clipsList;
+  safeURL: SafeResourceUrl;
+  public myHash: IHash = {};
 
-  constructor(public appService: AppService) { }
+  constructor(public appService: AppService, public sanitizer: DomSanitizer) {
+    
+  }
 
   ngOnInit() {
     this._init();
@@ -25,8 +34,16 @@ export class YoutubeListComponent implements OnInit {
 
   private async _init() {
     this.data = await this.appService.getCategories();
-    console.log(this.data);
     this.clipsList = await this.appService.getClips();
+
+    this.data.forEach(el => {
+      this.myHash[el.id] = el.name;
+    });
+
+    if (this.clipsList.length > 0) {
+      this.safeURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.clipsList[0].link.replace('https://www.youtube.com/watch?v=', 'https://www.youtube.com/embed/'));
+    }
+    
   }
 
   selectEvent(item) {
@@ -43,7 +60,7 @@ export class YoutubeListComponent implements OnInit {
     // do something when input is focused
   }
 
-  onSubmit() {
+  async onSubmit() {
     console.log(this.selectedCategory)
     const postData = {
       categoryid: this.selectedCategory,
@@ -51,8 +68,12 @@ export class YoutubeListComponent implements OnInit {
       userid: '',
       id: 0
     }
-    this.clipsList = this.appService.addClip(postData);
+    this.clipsList = await this.appService.addClip(postData);
 
+  }
+
+  onChooseMovie(index: number) {
+    this.safeURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.clipsList[index].link.replace('https://www.youtube.com/watch?v=', 'https://www.youtube.com/embed/'));
   }
 
 }

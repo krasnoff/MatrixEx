@@ -42,18 +42,21 @@
   <br /><br />
 </div>
 <div class="wrapper">
+  <iframe width="560" height="315" [src]="safeURL" frameborder="0" allowfullscreen></iframe>
+</div>
+<div class="wrapper">
   <table class="table">
     <thead>
       <tr>
-        <th>Id</th>
+        <th>Category</th>
         <th>Link</th>
         <th>Delete</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let clip of clipsList">
-        <td>{{clip.id}}</td>
-        <td>{{clip.link}}</td>
+      <tr *ngFor="let clip of clipsList; index as i">
+        <td>{{myHash[clip.categoryid]}}</td>
+        <td (click)="onChooseMovie(i)"><span class="link">{{clip.link}}</span></td>
         <td><button>Delete this clip</button></td>
       </tr>
     </tbody>
