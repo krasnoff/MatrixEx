@@ -9,9 +9,19 @@ namespace MatrixEx.Data
     public class Clips
     {
         [Key]
-        int id { get; set; }
-        int categoryid { get; set; }
-        string userid { get; set; }
-        string link { get; set; }
+        public string id { get; set; }
+        public int categoryid { get; set; }
+        public string userid { get; set; }
+        public string link { get; set; }
+
+        public Clips()
+        { }
+
+        public Clips(string userIdPar, AddClip addClip, string idNum) {
+            categoryid = addClip.categoryid;
+            link = addClip.link;
+            userid = userIdPar;
+            id = idNum;
+        }
     }
 }

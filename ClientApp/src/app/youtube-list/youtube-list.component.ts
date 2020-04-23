@@ -10,12 +10,12 @@ import { FormGroup, FormControl } from '@angular/forms';
 export class YoutubeListComponent implements OnInit {
   profileForm = new FormGroup({
     link: new FormControl(''),
-    category: new FormControl(''),
   });
 
   keyword = 'name';
   public data;
-  selectedCategory = {};
+  selectedCategory: number;
+  public clipsList;
 
   constructor(public appService: AppService) { }
 
@@ -26,11 +26,12 @@ export class YoutubeListComponent implements OnInit {
   private async _init() {
     this.data = await this.appService.getCategories();
     console.log(this.data);
+    this.clipsList = await this.appService.getClips();
   }
 
   selectEvent(item) {
     // do something with selected item
-    this.selectedCategory = item;
+    this.selectedCategory = item.id;
   }
 
   onChangeSearch(val: string) {
@@ -44,6 +45,14 @@ export class YoutubeListComponent implements OnInit {
 
   onSubmit() {
     console.log(this.selectedCategory)
+    const postData = {
+      categoryid: this.selectedCategory,
+      link: this.profileForm.value.link,
+      userid: '',
+      id: 0
+    }
+    this.clipsList = this.appService.addClip(postData);
+
   }
 
 }

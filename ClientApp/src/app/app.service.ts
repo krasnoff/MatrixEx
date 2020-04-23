@@ -9,7 +9,7 @@ export class AppService {
 
   constructor(private http: HttpClient, protected gd: GlobalsService) { }
 
-  createAuthorizationHeader() {
+  private createAuthorizationHeader() {
 
     let headers = new HttpHeaders();
 
@@ -32,5 +32,15 @@ export class AppService {
   public getCategories() {
     let headers = this.createAuthorizationHeader();
     return this.http.get('/api/Categories/', { headers: headers }).toPromise();
+  }
+
+  public getClips() {
+    let headers = this.createAuthorizationHeader();
+    return this.http.get('/api/Clips/', { headers: headers }).toPromise();
+  }
+
+  public addClip(payload: any) {
+    let headers = this.createAuthorizationHeader();
+    return this.http.post('/api/Clips/', payload, { headers: headers }).toPromise();
   }
 }
