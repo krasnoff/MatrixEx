@@ -23,6 +23,7 @@ export class YoutubeListComponent implements OnInit {
   public clipsList;
   safeURL: SafeResourceUrl;
   public myHash: IHash = {};
+  downloadJsonHref: any;
 
   constructor(public appService: AppService, public sanitizer: DomSanitizer) {
     
@@ -35,6 +36,7 @@ export class YoutubeListComponent implements OnInit {
   private async _init() {
     this.data = await this.appService.getCategories();
     this.clipsList = await this.appService.getClips();
+    this.generateDownloadJsonUri();
 
     this.data.forEach(el => {
       this.myHash[el.id] = el.name;
@@ -69,7 +71,7 @@ export class YoutubeListComponent implements OnInit {
       id: 0
     }
     this.clipsList = await this.appService.addClip(postData);
-
+    this.generateDownloadJsonUri();
   }
 
   onChooseMovie(index: number) {
@@ -79,6 +81,12 @@ export class YoutubeListComponent implements OnInit {
   async onDeleteMovie(id: string) {
     console.log(id);
     this.clipsList = await this.appService.deleteClip(id);
+  }
+
+  generateDownloadJsonUri() {
+    var theJSON = JSON.stringify(this.clipsList);
+    var uri = this.sanitizer.bypassSecurityTrustUrl("data:text/json;charset=UTF-8," + encodeURIComponent(theJSON));
+    this.downloadJsonHref = uri;
   }
 
 }
