@@ -98,8 +98,9 @@ namespace MatrixEx.Controllers
 
         // DELETE: api/Clips/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Clips>> DeleteClips(int id)
+        public async Task<ActionResult<IEnumerable<Clips>>> DeleteClips(string id)
         {
+            string userId = getCustomerId();
             var clips = await _context.Clips.FindAsync(id);
             if (clips == null)
             {
@@ -109,7 +110,9 @@ namespace MatrixEx.Controllers
             _context.Clips.Remove(clips);
             await _context.SaveChangesAsync();
 
-            return clips;
+            List<Clips> myClips = await _context.Clips.ToListAsync();
+            myClips = myClips.Where(item => item.userid == userId).ToList();
+            return myClips;
         }
 
         private string getCustomerId()

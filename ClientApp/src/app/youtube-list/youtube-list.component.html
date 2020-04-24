@@ -57,7 +57,7 @@
       <tr *ngFor="let clip of clipsList; index as i">
         <td>{{myHash[clip.categoryid]}}</td>
         <td (click)="onChooseMovie(i)"><span class="link">{{clip.link}}</span></td>
-        <td><button>Delete this clip</button></td>
+        <td><button (click)="onDeleteMovie(clip.id)">Delete this clip</button></td>
       </tr>
     </tbody>
   </table>

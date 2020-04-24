@@ -76,4 +76,9 @@ export class YoutubeListComponent implements OnInit {
     this.safeURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.clipsList[index].link.replace('https://www.youtube.com/watch?v=', 'https://www.youtube.com/embed/'));
   }
 
+  async onDeleteMovie(id: string) {
+    console.log(id);
+    this.clipsList = await this.appService.deleteClip(id);
+  }
+
 }

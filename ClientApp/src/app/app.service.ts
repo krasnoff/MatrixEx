@@ -43,4 +43,9 @@ export class AppService {
     let headers = this.createAuthorizationHeader();
     return this.http.post('/api/Clips/', payload, { headers: headers }).toPromise();
   }
+
+  public deleteClip(id: string) {
+    let headers = this.createAuthorizationHeader();
+    return this.http.delete('/api/Clips/' + id, { headers: headers }).toPromise();
+  }
 }
